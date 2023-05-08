@@ -8,9 +8,9 @@ function Navbar() {
     <nav className={styles.navbar}>
         <ul>
             <li className={styles.title}>myMoney</li>
-            
+
             <li><Link to="/login">Login</Link></li>
-            <li><Link to="/login">Signup</Link></li>
+            <li><Link to="/signup">Signup</Link></li>
         </ul>
     </nav>
   )
