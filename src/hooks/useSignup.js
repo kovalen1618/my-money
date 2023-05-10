@@ -1,9 +1,13 @@
 import { useState } from "react"
+
 import { projectAuth } from "../firebase/config"
+
+import { useAuthContext } from "./useAuthContext"
 
 export const useSignup = () => {
     const [error, setError] = useState(null);
     const [isPending, setIsPending] = useState(false);
+    const { dispatch } = useAuthContext();
 
     const signup = async (email, password, displayName) => {
         setError(null);
@@ -14,7 +18,6 @@ export const useSignup = () => {
             // Signup user
             // Use await since this is within an async function
             const res = await projectAuth.createUserWithEmailAndPassword(email, password);
-            console.log(res.user);
 
             // Throw error if bad response is given
             if (!res) {
@@ -23,6 +26,9 @@ export const useSignup = () => {
 
             // Update user's display name if there is no error
             await res.user.updateProfile({ displayName });
+
+            // Dispatch login action
+            dispatch({ type: 'LOGIN', payload: res.user });
 
             // Done with request, so stop loading and clear any errors
             setIsPending(false);
