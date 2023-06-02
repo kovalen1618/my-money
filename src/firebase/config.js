@@ -20,8 +20,11 @@ firebase.initializeApp(firebaseConfig);
 const projectFirestore = firebase.firestore();
 const projectAuth = firebase.auth();
 
+// Timestamp
+const timestamp = firebase.firestore.Timestamp;
+
 // Export
-export { projectFirestore, projectAuth };
+export { projectFirestore, projectAuth, timestamp };
 
 // projectAuth sends a request to the Firebase to handle the authentication process.
 // It checks if the details are correct and returns a token as a response. Then, we can use that token to access the database.

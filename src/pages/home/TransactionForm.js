@@ -1,17 +1,29 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useFirestore } from "../../hooks/useFirestore"
 
-export default function TransactionForm() {
+export default function TransactionForm({ uid }) {
     const [name, setName] = useState('')
     const [amount, setAmount] = useState('')
+    // Collections do not need to be manually added to Firestore, if there are no existing collections of that type, Firestore will automatically create them when added
+    const { addDocument, response } = useFirestore('transactions')
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log({
+        addDocument({
+            uid,
             name,
             amount
         })
     }
+
+    // Resets form inputs to empty after submission success
+    useEffect(() => {
+        if (response.success) {
+            setName('')
+            setAmount('')
+        }
+    }, [response.success])
 
     return (
         <>
