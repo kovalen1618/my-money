@@ -20,6 +20,8 @@ const firestoreReducer = (state, action) => {
         case 'ADDED_DOCUMENT':
             // Don't need spread operator on state here since all properties are being changed
             return {success: true, isPending: false, error: null, document: action.payload}
+        case 'DELETED_DOCUMENT':
+            return {success: true, isPending: false, error: null, document: null}
         case 'ERROR':
             return {success: false, isPending: false, error: action.payload, document: null}
         default:
@@ -59,7 +61,14 @@ export const useFirestore = (collection) => {
 
     // Delete document
     const deleteDocument = async (id) => {
+        dispatch({ type: 'IS_PENDING' });
 
+        try {
+            await ref.doc(id).delete();
+            dispatchIfNotCancelled({ type: 'DELETED_DOCUMENT' })
+        } catch (err) {
+            dispatchIfNotCancelled({ type: 'ERROR', payload: 'Could not delete' })
+        }
     }
 
     // Cleanup function
