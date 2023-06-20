@@ -15,7 +15,7 @@ function Navbar() {
   return (
     <nav className={styles.navbar}>
         <ul>
-            <li className={styles.title}>myMoney</li>
+            <li className={styles.title}>myMoneyApp</li>
 
             {!user && (
               // The fragment element is required because conditionals can only work with one root element
